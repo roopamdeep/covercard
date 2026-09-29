@@ -1,22 +1,13 @@
-import "dotenv/config";
-import express from "express";
 import mongoose from "mongoose";
-
-const app = express();
-const PORT = Number(process.env.PORT) || 5000;
-const MONGO_URI = process.env.MONGO_URI;
-
-if (!MONGO_URI) {
-  console.error("MONGO_URI is missing. Add it to server/.env");
-  process.exit(1);
-}
+import app from "./app.js";
+import { env } from "./config/env.js";
 
 try {
-  await mongoose.connect(MONGO_URI);
+  await mongoose.connect(env.MONGO_URI);
   console.log("MongoDB connected");
 
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  app.listen(env.PORT, () => {
+    console.log(`Server running on port ${env.PORT}`);
   });
 } catch (err) {
   const message = err instanceof Error ? err.message : String(err);
